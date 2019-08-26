@@ -9,3 +9,7 @@ sbt "examples/run"
 TODO:
 Documentation
 Published Module
+
+release cross with-defaults
+
+releasePublishArtifactsAction := PgpKeys.publishSigned.value

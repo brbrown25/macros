@@ -11,6 +11,11 @@ object Obfuscated {
 
   @ToStringObfuscate("password")
   case class UserPassword(username: String, password: String)
+
+  @ToStringObfuscate("password", "pinCode")
+  case class TestUser(username: String, password: String, pinCode: Long)
+
+  case class NestedExample(user: TestUser)
 }
 
 object NonObfuscated {
@@ -19,4 +24,8 @@ object NonObfuscated {
   case class TestCreditCard(cardNumber: String, cvv: Int, endDate: String)
 
   case class UserPassword(username: String, password: String)
+
+  case class TestUser(username: String, password: String, pinCode: Long)
+
+  case class NestedExample(user: TestUser)
 }
