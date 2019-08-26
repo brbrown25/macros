@@ -11,12 +11,7 @@ object Release {
       crossScalaVersions := Seq("2.11.12", "2.12.8"),
       sonatypeProfileName := "com.bbrownsound",
       publishMavenStyle := true,
-      publishTo := Some(
-        if (isSnapshot.value)
-          Opts.resolver.sonatypeSnapshots
-        else
-          Opts.resolver.sonatypeStaging
-      ),
+      publishTo in ThisBuild := sonatypePublishTo.value,
       pomExtra := {
         <url>https://github.com/brbrown25/macros</url>
         <licenses>

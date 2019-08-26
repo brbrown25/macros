@@ -24,6 +24,7 @@ lazy val macros = (project in file("./macros"))
   .settings(
     inThisBuild(common),
     name := "macros",
+    skip in publish := false,
     Release.settings
   )
 
@@ -34,8 +35,7 @@ lazy val examples = (project in file("./examples"))
     libraryDependencies ++= Seq(
       "ch.qos.logback" % "logback-classic" % "1.2.3",
       "org.scalatest" %% "scalatest" % "3.0.5" % "test"
-    ),
-    skip in publish := true
+    )
   )
   .aggregate(macros)
   .dependsOn(macros)
@@ -45,9 +45,10 @@ resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo)
 lazy val root = (project in file("."))
   .settings(
     inThisBuild(common),
-    name := "annotation-playground",
-    skip in publish := true
+    name := "annotation-playground"
   )
   .aggregate(macros, examples)
 
 crossScalaVersions := Seq("2.11.12", "2.12.8")
+
+skip in publish in ThisBuild := true
