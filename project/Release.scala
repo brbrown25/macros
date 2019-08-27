@@ -35,6 +35,7 @@ object Release {
           </developer>
         </developers>
       },
+      releaseCrossBuild := true,
       releaseProcess := Seq[ReleaseStep](
         checkSnapshotDependencies,
         inquireVersions,
@@ -43,13 +44,11 @@ object Release {
         setReleaseVersion,
         commitReleaseVersion,
         tagRelease,
-        ReleaseStep(
-          action = Command.process(s"""sonatypeOpen "${organization.value}" "${name.value} v${version.value}"""", _)
-        ),
-        ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+        releaseStepCommand(s"""sonatypeOpen "${organization.value}" "${name.value} v${version.value}""""),
+        releaseStepCommand("+publishSigned"),
         setNextVersion,
         commitNextVersion,
-        ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
+        releaseStepCommand("sonatypeReleaseAll"),
         pushChanges
       )
     )
