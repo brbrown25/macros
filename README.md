@@ -10,6 +10,8 @@ TODO:
 Documentation
 Published Module
 
-release cross with-defaults
+"com.bbrownsound" %% "macros" % "1.0.1"
+resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 
-releasePublishArtifactsAction := PgpKeys.publishSigned.value
+Release:
+manual process seems the best for now till I can work out the kinks.
