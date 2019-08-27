@@ -43,6 +43,9 @@ object Release {
         setReleaseVersion,
         commitReleaseVersion,
         tagRelease,
+        ReleaseStep(
+          action = Command.process(s"""sonatypeOpen "${organization.value}" "${name.value} v${version.value}"""", _)
+        ),
         ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
         setNextVersion,
         commitNextVersion,
