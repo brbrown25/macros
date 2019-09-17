@@ -1,14 +1,14 @@
-import sbt._
 import sbt.Keys._
-import sbtrelease.ReleasePlugin.autoImport._
+import sbt._
 import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
+import sbtrelease.ReleasePlugin.autoImport._
 import xerial.sbt.Sonatype.SonatypeKeys._
 
 object Release {
   val settings =
     Seq(
       releaseCrossBuild := true,
-      crossScalaVersions := Seq("2.11.12", "2.12.8"),
+      crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0"),
       sonatypeProfileName := "com.bbrownsound",
       publishMavenStyle := true,
       publishTo in ThisBuild := sonatypePublishTo.value,
@@ -35,7 +35,6 @@ object Release {
           </developer>
         </developers>
       },
-      releaseCrossBuild := true,
       releaseProcess := Seq[ReleaseStep](
         checkSnapshotDependencies,
         inquireVersions,
@@ -46,9 +45,13 @@ object Release {
         tagRelease,
         releaseStepCommand(s"""sonatypeOpen "${organization.value}" "${name.value} v${version.value}""""),
         releaseStepCommand("+publishSigned"),
+        releaseStepCommand("sonatypeReleaseAll"),
+        //releasePublishArtifactsAction
+        //releaseCrossBuild
+        //releaseSnapshotDependencies
         setNextVersion,
         commitNextVersion,
-        releaseStepCommand("sonatypeReleaseAll"),
+        releaseStepCommand("+publishSigned"),
         pushChanges
       )
     )
