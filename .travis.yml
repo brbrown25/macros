@@ -16,6 +16,10 @@ cache:
     - $HOME/.coursier
 
 
+
+before_install:
+  - pip install --user codecov
+
 before_cache:
   # See http://www.scala-sbt.org/0.13/docs/Travis-CI-with-sbt.html
   # Tricks to avoid unnecessary cache updates
@@ -36,4 +40,5 @@ jobs:
 
 #removing coveralls for now
 after_success:
-  - sbt coverageAggregate coverageReport
+  - sbt coverage coverageAggregate coverageReport
+  - bash <(curl -s https://codecov.io/bash)
