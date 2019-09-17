@@ -10,8 +10,11 @@ TODO:
 Documentation
 Published Module
 
-"com.bbrownsound" %% "macros" % "1.0.1"
-resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
+##Usage
+Add the following to your dependencies
+`"com.bbrownsound" %% "macros" % "1.0.1"`
+Note you may also need to add the following resolver
+`resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)`
 
 Release:
 manual process seems the best for now till I can work out the kinks.
