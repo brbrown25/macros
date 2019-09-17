@@ -16,7 +16,16 @@ Published Module
 
 ##Usage
 Add the following to your dependencies
-`"com.bbrownsound" %% "macros" % "1.0.1"`
+
+* for Release version (currently 2.11 and 2.12):
+```scala
+libraryDependencies += "com.bbrownsound" %% "macros" % "1.0.1"
+```
+* for Snapshot version (currently 2.11, 2.12, 2.13):
+```scala
+libraryDependencies += "com.bbrownsound" %% "macros" % "1.0.2-SNAPSHOT"
+```
+
 Note you may also need to add the following resolver
 `resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)`
 
