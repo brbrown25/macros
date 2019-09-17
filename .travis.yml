@@ -34,5 +34,6 @@ jobs:
       script: sbt ++$TRAVIS_SCALA_VERSION clean coverage test
       name: "Run coverage tests"
 
+#removing coveralls for now
 after_success:
-  - sbt coverageReport coveralls
+  - sbt coverageAggregate coverageReport
