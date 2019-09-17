@@ -8,7 +8,6 @@ object Release {
   val settings =
     Seq(
       releaseCrossBuild := true,
-      crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0"),
       sonatypeProfileName := "com.bbrownsound",
       publishMavenStyle := true,
       publishTo in ThisBuild := sonatypePublishTo.value,
