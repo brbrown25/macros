@@ -18,6 +18,11 @@ def priorTo2_13(scVersion: String): Boolean =
     case _ => false
   }
 
+lazy val versions211 = Seq("2.11.12")
+lazy val versions212 = Seq("2.12.12")
+lazy val versions213 = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4")
+//TODO scala 3 support
+//todo add doc site
 lazy val baseSettings = Seq(
   scalacOptions ++= {
     if (priorTo2_13(scalaVersion.value)) compilerOptions
@@ -43,7 +48,7 @@ lazy val baseSettings = Seq(
   ),
   resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo),
   skip in publish := true,
-  crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0")
+  crossScalaVersions := versions211 ++ versions212 ++ versions213
 )
 
 lazy val macroSettings: Seq[Setting[_]] = Seq(
@@ -95,3 +100,10 @@ lazy val root = (project in file("."))
     baseSettings ++ macroSettings
   )
   .aggregate(macros, examples)
+
+// todo add scalafix
+// addCommandAlias("fix", "scalafixAll")
+// addCommandAlias("fixCheck", "scalafixAll --check")
+addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
+addCommandAlias("fmtCheck", "all scalafmtSbtCheck scalafmtCheckAll")
+// addCommandAlias("prepare", "fix; fmt")

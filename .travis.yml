@@ -3,7 +3,11 @@ language: scala
 
 scala:
   - 2.13.0
-  - 2.12.8
+  - 2.13.1
+  - 2.13.2
+  - 2.13.3
+  - 2.13.4
+  - 2.12.12
   - 2.11.12
 
 jdk:
@@ -14,8 +18,6 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot
     - $HOME/.coursier
-
-
 
 before_install:
   - pip install --user codecov
@@ -32,7 +34,7 @@ stages:
 jobs:
   include:
     - stage: validations
-      script: scripts/validate-code check
+      script: sbt ++$TRAVIS_SCALA_VERSION fmtCheck
       name: "Code validations for source formatting"
     - stage: test
       script: sbt ++$TRAVIS_SCALA_VERSION clean coverage test
