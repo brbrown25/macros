@@ -4,8 +4,10 @@ import com.bbrownsound.macros.ToStringObfuscateImpl
 import java.util.UUID
 import org.scalatest._
 import scala.util.Random
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class ObfuscateSpec extends WordSpec with Matchers {
+class ObfuscateSpec extends AnyWordSpec with Matchers {
 
   def generateUUID = UUID.randomUUID().toString
 
