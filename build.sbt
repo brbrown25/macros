@@ -97,6 +97,7 @@ lazy val examples = (project in file("./examples"))
 lazy val root = (project in file("."))
   .settings(
     name := "annotation-playground",
+    crossScalaVersions := Nil,
     baseSettings ++ macroSettings
   )
   .aggregate(macros, examples)

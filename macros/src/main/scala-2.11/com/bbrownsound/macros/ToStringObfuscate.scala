@@ -16,18 +16,6 @@ object ToStringObfuscateImpl {
   }
 
   def _toString(x: Product, hide: List[String]): String = {
-//scala 2.13 makes this much easier
-//    x.productElementNames
-//      .zip(x.productIterator)
-//      .map {
-//        case (field, value) =>
-//          hide
-//            .find(_ == field)
-//            .map(obfuscateValue)
-//            .getOrElse(value)
-//      }
-//      .toList
-//      .mkString(x.productPrefix + "(", ",", ")")
     x.getClass.getDeclaredFields
       .map { field =>
         field.setAccessible(true)
