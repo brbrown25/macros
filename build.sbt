@@ -82,7 +82,7 @@ lazy val examples = (project in file("./examples"))
     name := "examples",
     libraryDependencies ++= Seq(
       "ch.qos.logback" % "logback-classic" % "1.2.3",
-      "org.scalatest" %% "scalatest" % "3.0.9" % "test"
+      "org.scalatest" %% "scalatest" % "3.2.3" % "test"
     ),
     baseSettings ++ macroSettings
   )
