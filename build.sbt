@@ -79,16 +79,16 @@ lazy val macroSettings: Seq[Setting[_]] = Seq(
 lazy val macros = (project in file("./macros"))
   .settings(
     name := "macros",
-    macroSettings ++ Release.settings
+    macroSettings ++ Release.settings,
+    libraryDependencies ++= Seq(
+      "ch.qos.logback" % "logback-classic" % "1.2.3",
+      "org.scalatest" %% "scalatest" % "3.2.3" % "test"
+    )
   )
 
 lazy val examples = (project in file("./examples"))
   .settings(
     name := "examples",
-    libraryDependencies ++= Seq(
-      "ch.qos.logback" % "logback-classic" % "1.2.3",
-      "org.scalatest" %% "scalatest" % "3.2.3" % "test"
-    ),
     baseSettings ++ macroSettings
   )
   .aggregate(macros)
