@@ -72,13 +72,13 @@ lazy val macroSettings: Seq[Setting[_]] = Seq(
       }
     }
   ),
-  skip in publish := false,
   crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0")
 )
 
 lazy val macros = (project in file("./macros"))
   .settings(
     name := "macros",
+    skip in publish := false,
     macroSettings ++ Release.settings,
     libraryDependencies ++= Seq(
       "ch.qos.logback" % "logback-classic" % "1.2.3",
