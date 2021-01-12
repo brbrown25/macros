@@ -9,8 +9,6 @@ object Release {
     Seq(
       releaseCrossBuild := true,
       sonatypeProfileName := "com.bbrownsound",
-      publishMavenStyle := true,
-      publishTo in ThisBuild := sonatypePublishTo.value,
       pomExtra := {
         <url>https://github.com/brbrown25/macros</url>
         <licenses>

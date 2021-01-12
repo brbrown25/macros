@@ -26,7 +26,14 @@ build:
 publish:
   FROM +deps
   COPY macros macros
-  RUN sbt ++publishSigned
+  RUN \
+    --secret PGP_PASSPHRASE=+secrets/PGP_PASSPHRASE \
+    --secret PGP_SECRET=+secrets/PGP_SECRET \
+    --secret SONATYPE_PASSWORD=+secrets/SONATYPE_PASSWORD \
+    --secret SONATYPE_USERNAME=+secrets/SONATYPE_USERNAME \
+    --secret CI_RELEASE=+secrets/CI_RELEASE \
+    --secret CI_SNAPSHOT_RELEASE=+secrets/CI_SNAPSHOT_RELEASE \
+    sbt ci-release
 
 all:
   BUILD +lint-check

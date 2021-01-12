@@ -12,3 +12,6 @@ addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
 
 // https://github.com/scalameta/scalafmt
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0")
+
+// https://github.com/olafurpg/sbt-ci-release
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
