@@ -1,7 +1,6 @@
 organization in ThisBuild := "com.bbrownsound"
 
 lazy val paradiseVersion = "2.1.1"
-
 //https://github.com/circe/circe/blob/master/build.sbt
 val compilerOptions = Seq(
   "-deprecation",
@@ -21,6 +20,7 @@ def priorTo2_13(scVersion: String): Boolean =
 lazy val versions211 = Seq("2.11.12")
 lazy val versions212 = Seq("2.12.12")
 lazy val versions213 = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4")
+lazy val allCrossVersions = versions211 ++ versions212 ++ versions213
 //TODO scala 3 support
 //todo add doc site
 lazy val baseSettings = Seq(
@@ -48,7 +48,7 @@ lazy val baseSettings = Seq(
   ),
   resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo),
   skip in publish := true,
-  crossScalaVersions := versions211 ++ versions212 ++ versions213
+  crossScalaVersions := allCrossVersions
 )
 
 lazy val macroSettings: Seq[Setting[_]] = Seq(
@@ -86,21 +86,28 @@ lazy val macros = (project in file("./macros"))
     )
   )
 
-lazy val examples = (project in file("./examples"))
+lazy val docs = project
+  .in(file("macros-docs"))
   .settings(
-    name := "examples",
-    baseSettings ++ macroSettings
+    macroSettings,
+    skip in publish := true,
+    mdocVariables := Map(
+      "SNAPSHOT_VERSION" -> version.value,
+      "RELEASE_VERSION" -> "1.0.1",
+      "ORG" -> organization.value,
+      "NAME" -> "macros",
+      "CROSS_VERSIONS" -> allCrossVersions.mkString(", ")
+    )
   )
-  .aggregate(macros)
   .dependsOn(macros)
+  .enablePlugins(MdocPlugin, DocusaurusPlugin)
 
 lazy val root = (project in file("."))
   .settings(
     name := "annotation-playground",
-    crossScalaVersions := Nil,
     baseSettings ++ macroSettings
   )
-  .aggregate(macros, examples)
+  .aggregate(macros)
 
 // todo add scalafix
 // addCommandAlias("fix", "scalafixAll")
