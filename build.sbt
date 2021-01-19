@@ -105,10 +105,9 @@ lazy val docs = project
 lazy val root = (project in file("."))
   .settings(
     name := "annotation-playground",
-    crossScalaVersions := Nil,
     baseSettings ++ macroSettings
   )
-  .aggregate(macros, docs)
+  .aggregate(macros)
 
 // todo add scalafix
 // addCommandAlias("fix", "scalafixAll")
