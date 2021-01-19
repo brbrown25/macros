@@ -15,3 +15,15 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0")
 
 // https://github.com/olafurpg/sbt-ci-release
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
+
+//https://github.com/scalameta/mdoc
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.15")
+
+// https://github.com/sbt/sbt-release/releases
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
+
+// https://github.com/xerial/sbt-sonatype/releases
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
+
+// https://github.com/sbt/sbt-pgp/releases
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2-1")
