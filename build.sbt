@@ -17,12 +17,13 @@ def priorTo2_13(scVersion: String): Boolean =
     case _ => false
   }
 
-lazy val versions211 = Seq("2.11.12")
-lazy val versions212 = Seq("2.12.12")
-lazy val versions213 = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4")
-lazy val allCrossVersions = versions211 ++ versions212 ++ versions213
+//lazy val versions211 = Seq("2.11.12")
+//lazy val versions212 = Seq("2.12.12")
+//lazy val versions213 = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4")
+//lazy val allCrossVersions = versions211 ++ versions212 ++ versions213
+lazy val allCrossVersions = Seq("2.11.12", "2.12.8", "2.13.4")
 //TODO scala 3 support
-//todo add doc site
+
 lazy val baseSettings = Seq(
   scalacOptions ++= {
     if (priorTo2_13(scalaVersion.value)) compilerOptions
@@ -47,8 +48,7 @@ lazy val baseSettings = Seq(
     "org.slf4j" % "slf4j-simple" % "1.7.30" % Provided
   ),
   resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo),
-  skip in publish := true,
-  crossScalaVersions := allCrossVersions
+  skip in publish := true
 )
 
 lazy val macroSettings: Seq[Setting[_]] = Seq(
@@ -72,7 +72,7 @@ lazy val macroSettings: Seq[Setting[_]] = Seq(
       }
     }
   ),
-  crossScalaVersions := Seq("2.11.12", "2.12.8", "2.13.0")
+  crossScalaVersions := allCrossVersions
 )
 
 lazy val macros = (project in file("./macros"))

@@ -17,7 +17,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0")
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
 
 //https://github.com/scalameta/mdoc
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.15")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.16")
 
 // https://github.com/sbt/sbt-release/releases
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
