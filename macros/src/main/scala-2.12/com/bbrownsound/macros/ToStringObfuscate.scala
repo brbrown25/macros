@@ -21,9 +21,7 @@ object ToStringObfuscateImpl {
         field.setAccessible(true)
         val result = hide
           .find(_ == field.getName)
-          .map { _ =>
-            obfuscateValue(field.get(x))
-          }
+          .map { _ => obfuscateValue(field.get(x)) }
           .getOrElse(field.get(x))
         field.setAccessible(false)
         result
@@ -56,8 +54,9 @@ object ToStringObfuscateImpl {
       """
 
       val params = fields
-        .collect { case vd: ValDef =>
-          vd
+        .collect {
+          case vd: ValDef =>
+            vd
         }
         .map(_.duplicate)
 
