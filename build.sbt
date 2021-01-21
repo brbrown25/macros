@@ -8,7 +8,8 @@ val compilerOptions = Seq(
   "-unchecked",
   "-language:postfixOps",
   "-language:implicitConversions",
-  "-language:experimental.macros"
+  "-language:experimental.macros",
+  "-Ywarn-unused-import"
 )
 
 def priorTo2_13(scVersion: String): Boolean =
@@ -29,7 +30,7 @@ lazy val baseSettings = Seq(
     if (priorTo2_13(scalaVersion.value)) compilerOptions
     else
       compilerOptions.flatMap {
-        case "-Ywarn-unused-import" => Seq("-Ywarn-unused:imports")
+        case "-Ywarn-unused-import" => Seq("-Ywarn-unused:imports", "-Wunused")
         case "-Xfuture" => Nil
         case other => Seq(other)
       }
@@ -68,6 +69,7 @@ lazy val macroSettings: Seq[Setting[_]] = Seq(
     } else {
       compilerOptions.flatMap {
         case "-language:experimental.macros" => Seq("-language:experimental.macros", "-Ymacro-annotations")
+        case "-Ywarn-unused-import" => Seq("-Ywarn-unused:imports", "-Wunused")
         case other => Seq(other)
       }
     }
@@ -109,9 +111,17 @@ lazy val root = (project in file("."))
   )
   .aggregate(macros)
 
-// todo add scalafix
-// addCommandAlias("fix", "scalafixAll")
-// addCommandAlias("fixCheck", "scalafixAll --check")
+inThisBuild(
+  List(
+    semanticdbEnabled := true, // enable SemanticDB
+    semanticdbVersion := scalafixSemanticdb.revision, // use Scalafix compatible version
+    scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
+    scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.4.4"
+  )
+)
+addCommandAlias("fix", "scalafixAll")
+addCommandAlias("fixCheck", "scalafixAll --check")
 addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
 addCommandAlias("fmtCheck", "all scalafmtSbtCheck scalafmtCheckAll")
-// addCommandAlias("prepare", "fix; fmt")
+addCommandAlias("prepare", "fix; fmt")
+addCommandAlias("checkAll", "fixCheck; fmtCheck")
