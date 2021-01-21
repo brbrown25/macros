@@ -11,7 +11,7 @@ addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
 //addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "1.3.15")
 
 // https://github.com/scalameta/scalafmt
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.0")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
 // https://github.com/olafurpg/sbt-ci-release
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
@@ -27,3 +27,8 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
 
 // https://github.com/sbt/sbt-pgp/releases
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2-1")
+
+//https://github.com/scalacenter/scalafix
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.25")
+
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.0")

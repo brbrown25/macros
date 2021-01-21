@@ -5,6 +5,7 @@ deps:
   COPY build.sbt ./
   COPY project project
   COPY .scalafmt.conf .scalafmt.conf
+  COPY .scalafix.conf .scalafix.conf
   COPY version.sbt version.sbt
   RUN sbt update
 
@@ -16,7 +17,7 @@ unit-test:
 lint-check:
   FROM +deps
   COPY macros macros
-  RUN sbt fmtCheck
+  RUN sbt checkAll
 
 build:
   FROM +deps
