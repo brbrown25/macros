@@ -1,14 +1,16 @@
 package com.bbrownsound.examples
 
-import com.bbrownsound.macros.ToStringObfuscateImpl
-import java.util.UUID
-import scala.util.Random
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+import java.util.UUID
+import scala.util.Random
+
+import com.bbrownsound.macros.ToStringObfuscateImpl
+
 class ObfuscateSpec extends AnyWordSpec with Matchers {
 
-  def generateUUID = UUID.randomUUID().toString
+  def generateUUID: String = UUID.randomUUID().toString
 
   "`toString` method on TestObfuscatePassword case class obfuscates password and pinCode fields" in {
     val name = generateUUID

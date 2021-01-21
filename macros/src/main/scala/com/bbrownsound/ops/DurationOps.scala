@@ -13,5 +13,5 @@ final class DurationOps(self: Duration) {
 }
 
 trait ToDurationOps {
-  implicit def toDurationOpsFromDuration(d: Duration) = new DurationOps(d)
+  implicit def toDurationOpsFromDuration(d: Duration): DurationOps = new DurationOps(d)
 }

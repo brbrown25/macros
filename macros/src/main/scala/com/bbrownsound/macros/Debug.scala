@@ -8,7 +8,7 @@ class Debug extends StaticAnnotation {
 }
 
 object DebugImpl {
-  def impl(c: blackbox.Context)(annottees: c.Expr[Any]*) = {
+  def impl(c: blackbox.Context)(annottees: c.Expr[Any]*): c.Expr[c.universe.ValDef] = {
     import c.universe._
     annottees.map(_.tree).toList match {
       case (vd: ValDef) :: Nil => {
