@@ -10,30 +10,24 @@ A collection of scala macros for experimentation. this has mainly been for learn
 is actually inspired by a recent python project I did where I implemented a timer inspired by
 https://medium.com/pythonhive/python-decorator-to-measure-the-execution-time-of-methods-fa04cb6bb36d
 
-sbt "examples/test"
-sbt "examples/run"
-
-TODO:
-Documentation
-Published Module
 
 ##Usage
-Add the following to your dependencies
 
-* for Release version (currently 2.11 and 2.12):
-```scala
-libraryDependencies += "com.bbrownsound" %% "macros" % "1.0.1"
-```
-* for Snapshot version (currently 2.11, 2.12, 2.13):
-```scala
-libraryDependencies += "com.bbrownsound" %% "macros" % "1.0.2-SNAPSHOT"
-```
 
 Note you may also need to add the following resolver
 `resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)`
 
 Release:
 manual process seems the best for now till I can work out the kinks.
+Locally I needed to do
+```
+GPG_TTY=$(tty)
+export GPG_TTY
+```
+and in the sbt console
+```
+; sonatypeOpen; +publishSigned; sonatypeClose; sonatypePromote
+```
 
 [Badge-CI]: https://github.com/brbrown25/macros/workflows/CI/badge.svg?branch=master "CI"
 [Badge-SonatypeReleases]: https://img.shields.io/nexus/r/https/oss.sonatype.org/com.bbrownsound/macros_2.12.svg "Sonatype Releases"
