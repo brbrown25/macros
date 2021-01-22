@@ -113,12 +113,24 @@ lazy val root = (project in file("."))
 
 inThisBuild(
   List(
+    organization := "com.bbrownsound",
+    homepage := Some(url("https://github.com/brbrown25/macros")),
+    licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    developers := List(
+      Developer(
+        "brbrown25",
+        "Brandon Brown",
+        "brandon@bbrownsound.com",
+        url("https://bbrownsound.com")
+      )
+    ),
     semanticdbEnabled := true, // enable SemanticDB
     semanticdbVersion := scalafixSemanticdb.revision, // use Scalafix compatible version
     scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
     scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.4.4"
   )
 )
+
 addCommandAlias("fix", "scalafixAll")
 addCommandAlias("fixCheck", "scalafixAll --check")
 addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
