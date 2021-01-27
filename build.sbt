@@ -137,3 +137,7 @@ addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
 addCommandAlias("fmtCheck", "all scalafmtSbtCheck scalafmtCheckAll")
 addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("checkAll", "fixCheck; fmtCheck")
+
+coverageEnabled := true
+coverageMinimum := 80
+coverageFailOnMinimum := true
