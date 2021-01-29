@@ -32,9 +32,16 @@ jobs:
     - name: Run test
       run: earthly +unit-test
     - name: Generate Coverage Report
-      run: sbt clean coverage test coverageReport && sbt coverageAggregate
+      run: sbt clean coverage test coverageReport
+#    - name: Publish Coverage Report
+#      run: sbt coveralls
+    #sbt coveralls currently doesn't smoothly support github actions, but there is a pr open
     - name: Publish Coverage Report
-      run: sbt coveralls
+      run: sbt coverageAggregate coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        COVERALLS_FLAG_NAME: MACROS
+        TRAVIS_JOB_ID: ${GITHUB_RUN_ID}
   # publish:
   #   needs: build
   #   runs-on: ubuntu-latest

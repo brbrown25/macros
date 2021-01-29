@@ -6,6 +6,7 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.0")
 
 // https://github.com/scoverage/sbt-coveralls/releases
 addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
+// addSbtPlugin("net.ruippeixotog" % "sbt-coveralls" % "1.3.0") // fork with scoverage/sbt-coveralls#128 merged in
 
 // https://github.com/scalameta/scalafmt
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")

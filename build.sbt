@@ -141,3 +141,7 @@ addCommandAlias("checkAll", "fixCheck; fmtCheck")
 coverageEnabled := true
 coverageMinimum := 80
 coverageFailOnMinimum := true
+
+import org.scoverage.coveralls.Imports.CoverallsKeys._
+
+coverallsToken := sys.env.get("COVERALLS_REPO_TOKEN")
