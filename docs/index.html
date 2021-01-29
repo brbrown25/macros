@@ -52,8 +52,8 @@
 <span class="hljs-keyword">import</span> java.util.<span class="hljs-type">UUID</span>
 
 <span class="hljs-meta">@Debug</span> <span class="hljs-keyword">val</span> pinCode = <span class="hljs-type">UUID</span>.randomUUID().toString
-<span class="hljs-comment">// [index.md:68] pinCode - 2901a3c1-7dd7-4190-8004-12ff9dd9b9a2</span>
-<span class="hljs-comment">// pinCode: String = "2901a3c1-7dd7-4190-8004-12ff9dd9b9a2"</span>
+<span class="hljs-comment">// [index.md:68] pinCode - db3191dd-a0ee-45a7-b34e-631518492677</span>
+<span class="hljs-comment">// pinCode: String = "db3191dd-a0ee-45a7-b34e-631518492677"</span>
 <span class="hljs-comment">//[com.bbrownsound.examples.ObfuscateSpec:19] pinCode - 2f7ab2f6-9795-433d-9744-46382754e101</span>
 
 <span class="hljs-meta">@Debug</span> <span class="hljs-keyword">val</span> obfuscatedInstance = <span class="hljs-type">TestPassword</span>(
@@ -62,12 +62,12 @@
   password = <span class="hljs-string">"password"</span>,
   pinCode = pinCode
 )
-<span class="hljs-comment">// [index.md:71] obfuscatedInstance - TestPassword(name,username,********,************************************,repl.MdocSession$App@665c42d5)</span>
+<span class="hljs-comment">// [index.md:71] obfuscatedInstance - TestPassword(name,username,********,************************************,repl.MdocSession$App@2d3a3153)</span>
 <span class="hljs-comment">// obfuscatedInstance: TestPassword = TestPassword(</span>
 <span class="hljs-comment">//   "name",</span>
 <span class="hljs-comment">//   "username",</span>
 <span class="hljs-comment">//   "password",</span>
-<span class="hljs-comment">//   "2901a3c1-7dd7-4190-8004-12ff9dd9b9a2"</span>
+<span class="hljs-comment">//   "db3191dd-a0ee-45a7-b34e-631518492677"</span>
 <span class="hljs-comment">// )</span>
 <span class="hljs-comment">//[com.bbrownsound.examples.ObfuscateSpec:21] obfuscatedInstance - TestPassword&amp;#40;a3e79549-13bf-41c8-8984-4962f3038abe,738699be-4a96-442c-a2e2-b60b0e785f8f,************************************,************************************</span>
 
