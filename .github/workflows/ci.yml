@@ -31,18 +31,10 @@ jobs:
       run: earthly +lint-check
     - name: Run test
       run: earthly +unit-test
-    - name: Generate coverage report
-      run: sbt clean coverage test coverageAggregate
-    - name: Check reports
-      run: ls /home/runner/work/macros/macros/target/scala-2.12/scoverage-report
-    - uses: codecov/codecov-action@v1
-      with:
-        flags: unittests
-        name: codecov-umbrella
-        files: /home/runner/work/macros/macros/target/scala-2.12/scoverage-report/scoverage.xml
-        directory: /home/runner/work/macros/macros/target/scala-2.12/scoverage-report
-        fail_ci_if_error: false
-        verbose: true
+    - name: Generate Coverage Report
+      run: sbt clean coverage test coverageReport && sbt coverageAggregate
+    - name: Publish Coverage Report
+      run: sbt coveralls
   # publish:
   #   needs: build
   #   runs-on: ubuntu-latest
