@@ -1,3 +1,5 @@
+import microsites._
+
 organization in ThisBuild := "com.bbrownsound"
 
 lazy val paradiseVersion = "2.1.1"
@@ -88,21 +90,61 @@ lazy val macros = (project in file("./macros"))
     )
   )
 
+lazy val docSettings = Seq(
+  micrositeName := "Macros",
+  micrositeDescription := "Documentation for macro helper library",
+  micrositeAuthor := "Brandon Brown",
+  micrositeTwitterCreator := "@brbrown",
+  micrositeGithubOwner := "brbrown25",
+  micrositeGithubRepo := "macros",
+  micrositeGithubLinks := true,
+  micrositeGitterChannel := false,
+  micrositeShareOnSocial := true,
+  micrositeTheme := "pattern",
+  micrositePalette := Map(
+    "brand-primary" -> "#E05236",
+    "brand-secondary" -> "#3F3242",
+    "brand-tertiary" -> "#2D232F",
+    "gray-dark" -> "#453E46",
+    "gray" -> "#837F84",
+    "gray-light" -> "#E3E2E3",
+    "gray-lighter" -> "#F4F3F4",
+    "white-color" -> "#FFFFFF"
+  ),
+  micrositeFooterText := Some(
+    """
+      |<p>© 2020 Brandon Brown</p>
+      |<p style="font-size: 80%; margin-top: 10px">Website built with <a href="https://47deg.github.io/sbt-microsites/">sbt-microsites © 2020</a></p>
+      |""".stripMargin
+  ),
+  ghpagesNoJekyll := false,
+  fork in mdoc := true,
+//  git.remoteRepo := "git@github.com:brbrown25/macros.git",
+  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
+  includeFilter in Jekyll := (includeFilter in makeSite).value,
+  mdocIn := baseDirectory.in(LocalRootProject).value / "docs" / "src" / "main" / "mdoc",
+  mdocExtraArguments := Seq("--no-link-hygiene"),
+  micrositeGithubToken := sys.env.get("MICROSITE_TOKEN"),
+)
+
 lazy val docs = project
   .in(file("macros-docs"))
+  .enablePlugins(MdocPlugin)
+  .enablePlugins(MicrositesPlugin)
+  .settings(macroSettings)
   .settings(
-    macroSettings,
+    moduleName := "macros-docs",
     skip in publish := true,
     mdocVariables := Map(
       "SNAPSHOT_VERSION" -> version.value,
-      "RELEASE_VERSION" -> "1.0.1",
+      "RELEASE_VERSION" -> "1.0.2",
       "ORG" -> organization.value,
       "NAME" -> "macros",
       "CROSS_VERSIONS" -> allCrossVersions.mkString(", ")
     )
   )
+  .settings(docSettings)
   .dependsOn(macros)
-  .enablePlugins(MdocPlugin, DocusaurusPlugin)
 
 lazy val root = (project in file("."))
   .settings(
