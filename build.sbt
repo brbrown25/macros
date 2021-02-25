@@ -86,7 +86,7 @@ lazy val macros = (project in file("./macros"))
     macroSettings ++ Release.settings,
     libraryDependencies ++= Seq(
       "ch.qos.logback" % "logback-classic" % "1.2.3",
-      "org.scalatest" %% "scalatest" % "3.2.4" % "test"
+      "org.scalatest" %% "scalatest" % "3.2.5" % "test"
     )
   )
 
