@@ -18,7 +18,7 @@ addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
 //addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.16")
 
 // https://github.com/sbt/sbt-release/releases
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
 
 // https://github.com/xerial/sbt-sonatype/releases
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
