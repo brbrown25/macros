@@ -29,6 +29,6 @@ addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2-1")
 //https://github.com/scalacenter/scalafix
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.25")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.0")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.3")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "1.3.1")
