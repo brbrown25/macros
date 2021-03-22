@@ -24,7 +24,7 @@ addSbtPlugin("com.github.sbt" % "sbt-release" % "1.0.15")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.6")
 
 // https://github.com/sbt/sbt-pgp/releases
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2-1")
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.1.1")
 
 //https://github.com/scalacenter/scalafix
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.26")
