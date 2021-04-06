@@ -20,7 +20,7 @@ def priorTo2_13(scVersion: String): Boolean =
     case _ => false
   }
 
-lazy val allCrossVersions = Seq("2.11.12", "2.12.13", "2.13.4")
+lazy val allCrossVersions = Seq("2.11.12", "2.12.13", "2.13.5")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 

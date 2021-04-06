@@ -33,7 +33,7 @@ object ToStringObfuscateImpl {
     import c.universe._
 
     def extractAnnotationParameters(tree: Tree): List[c.universe.Tree] = tree match {
-      case q"new $name(..$params)  " => params
+      case q"new $_(..$params)  " => params
       case _ => throw new Exception("ToStringObfuscate annotation must have at least one parameter.")
     }
 
