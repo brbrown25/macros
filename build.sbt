@@ -1,6 +1,6 @@
 import microsites._
 
-organization in ThisBuild := "com.bbrownsound"
+ThisBuild / organization := "com.bbrownsound"
 
 lazy val paradiseVersion = "2.1.1"
 //https://github.com/circe/circe/blob/master/build.sbt
@@ -20,12 +20,100 @@ def priorTo2_13(scVersion: String): Boolean =
     case _ => false
   }
 
-//lazy val versions211 = Seq("2.11.12")
-//lazy val versions212 = Seq("2.12.12")
-//lazy val versions213 = Seq("2.13.0", "2.13.1", "2.13.2", "2.13.3", "2.13.4")
-//lazy val allCrossVersions = versions211 ++ versions212 ++ versions213
-lazy val allCrossVersions = Seq("2.11.12", "2.12.8", "2.13.4")
-//TODO scala 3 support
+lazy val allCrossVersions = Seq("2.11.12", "2.12.13", "2.13.4")
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
+ThisBuild / crossScalaVersions := allCrossVersions
+ThisBuild / scalaVersion := crossScalaVersions.value.last
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8", "adopt@1.11", "adopt@1.15")
+ThisBuild / githubWorkflowArtifactUpload := false
+ThisBuild / githubWorkflowAddedJobs ++= Seq(
+  WorkflowJob(
+    "formatting",
+    "Check formatting",
+    githubWorkflowJobSetup.value.toList ::: List(
+      WorkflowStep
+        .Run(List(s"sbt ++${crossScalaVersions.value.last} checkAll"), name = Some("Check formatting"))
+    )
+  ),
+  WorkflowJob(
+    "coverage",
+    "Coverage",
+    githubWorkflowJobSetup.value.toList ::: List(
+      WorkflowStep.Use(UseRef.Public("actions", "setup-python", "v2"), name = Some("Setup Python")),
+      WorkflowStep.Run(List("pip install codecov"), name = Some("Install Codecov")),
+      WorkflowStep
+        .Sbt(List("coverage", "macros/test", "macros/coverageReport"), name = Some("Calculate test coverage")),
+      WorkflowStep.Run(List("codecov"), name = Some("Upload coverage results")),
+      WorkflowStep.Run(List("sbt clean coverage test coverageReport"), name = Some("Generate Coverage Report")),
+      WorkflowStep.Run(List("sbt coverageAggregate coveralls"), name = Some("Publish Coverage Report"))
+    ),
+    env = Map(
+      "COVERALLS_REPO_TOKEN" -> "${{ secrets.COVERALLS_REPO_TOKEN }}",
+      "COVERALLS_FLAG_NAME" -> "MACROS",
+      "TRAVIS_JOB_ID" -> "${GITHUB_RUN_ID}",
+    ),
+    scalas = List(crossScalaVersions.value.last),
+    cond = Some("github.event_name != 'pull_request'")
+  ),
+  WorkflowJob(
+    "microsite",
+    "Microsite",
+    githubWorkflowJobSetup.value.toList ::: List(
+      WorkflowStep.Use(
+        UseRef.Public("ruby", "setup-ruby", "v1"),
+        name = Some("Setup Ruby"),
+        params = Map("ruby-version" -> "2.6", "bundler-cache" -> "true")
+      ),
+      WorkflowStep.Run(List("gem install jekyll -v 2.5"), name = Some("Install Jekyll")),
+      WorkflowStep.Sbt(List("docs/clean"), name = Some("Clean microsite")),
+      WorkflowStep.Sbt(List("docs/makeMicrosite"), name = Some("Build microsite"))
+    ),
+    scalas = List(crossScalaVersions.value.last),
+    cond = Some("github.event_name != 'pull_request'")
+  ),
+  //eventually do everything with earthly
+  WorkflowJob(
+    "earthly",
+    "Earthly Checks",
+    List(
+      WorkflowStep.Use(
+        UseRef.Public("actions", "checkout", "v2"),
+        name = Some("Checkout current branch (full)"),
+        params = Map("fetch-depth" -> "0")
+      ),
+      WorkflowStep.Run(
+        List(
+          "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.4.4/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+        ),
+        name = Some("Install Earthly")
+      ),
+      WorkflowStep.Run(List("earthly --version"), name = Some("Earthly version")),
+      WorkflowStep.Run(List("earthly +lint-check"), name = Some("Run checks")),
+      WorkflowStep.Run(List("earthly +unit-test"), name = Some("Run test")),
+    ),
+    scalas = List(crossScalaVersions.value.last)
+  )
+)
+ThisBuild / githubWorkflowPublishTargetBranches :=
+  Seq(
+    RefPredicate.StartsWith(Ref.Tag("*")),
+    RefPredicate.Contains(Ref.Branch("master")),
+    RefPredicate.Contains(Ref.Branch("main"))
+  )
+
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    List("ci-release"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
+)
 
 lazy val baseSettings = Seq(
   scalacOptions ++= {
@@ -118,8 +206,7 @@ lazy val docSettings = Seq(
       |""".stripMargin
   ),
   ghpagesNoJekyll := false,
-  fork in mdoc := true,
-//  git.remoteRepo := "git@github.com:brbrown25/macros.git",
+  git.remoteRepo := "git@github.com:brbrown25/macros.git",
   includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
   includeFilter in Jekyll := (includeFilter in makeSite).value,
   mdocIn := baseDirectory.in(LocalRootProject).value / "docs" / "src" / "main" / "mdoc",

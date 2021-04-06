@@ -53,8 +53,9 @@ object ToStringObfuscateImpl {
       """
 
       val params = fields
-        .collect { case vd: ValDef =>
-          vd
+        .collect {
+          case vd: ValDef =>
+            vd
         }
         .map(_.duplicate)
 
