@@ -20,7 +20,7 @@ def priorTo2_13(scVersion: String): Boolean =
     case _ => false
   }
 
-lazy val allCrossVersions = Seq("2.11.12", "2.12.13", "2.13.5")
+lazy val allCrossVersions = Seq("2.11.12", "2.12.12", "2.13.5")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -52,7 +52,7 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
     env = Map(
       "COVERALLS_REPO_TOKEN" -> "${{ secrets.COVERALLS_REPO_TOKEN }}",
       "COVERALLS_FLAG_NAME" -> "MACROS",
-      "TRAVIS_JOB_ID" -> "${GITHUB_RUN_ID}",
+      "github-token" -> "${{ secrets.GITHUB_TOKEN }}"
     ),
     scalas = List(crossScalaVersions.value.last),
     cond = Some("github.event_name != 'pull_request'")
@@ -85,7 +85,7 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
       ),
       WorkflowStep.Run(
         List(
-          "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.4.4/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+          "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.5.9/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
         ),
         name = Some("Install Earthly")
       ),
@@ -267,9 +267,9 @@ addCommandAlias("fmtCheck", "all scalafmtSbtCheck scalafmtCheckAll")
 addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("checkAll", "fixCheck; fmtCheck")
 
-coverageEnabled := true
-coverageMinimum := 80
-coverageFailOnMinimum := true
+ThisBuild / coverageEnabled := true
+ThisBuild / coverageMinimum := 80
+ThisBuild / coverageFailOnMinimum := true
 
 import org.scoverage.coveralls.Imports.CoverallsKeys._
 

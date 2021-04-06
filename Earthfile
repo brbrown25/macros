@@ -1,4 +1,4 @@
-FROM hseeberger/scala-sbt:11.0.9.1_1.4.7_2.13.4
+FROM hseeberger/scala-sbt:11.0.10_1.5.0_2.13.5
 WORKDIR .
 
 deps:

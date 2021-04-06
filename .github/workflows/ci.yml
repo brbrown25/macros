@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.11.12, 2.12.13, 2.13.5]
+        scala: [2.11.12, 2.12.12, 2.13.5]
         java: [adopt@1.8, adopt@1.11, adopt@1.15]
     runs-on: ${{ matrix.os }}
     steps:
@@ -140,7 +140,7 @@ jobs:
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       COVERALLS_FLAG_NAME: MACROS
-      TRAVIS_JOB_ID: ${GITHUB_RUN_ID}
+      github-token: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout current branch (full)
         uses: actions/checkout@v2
@@ -244,7 +244,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Earthly
-        run: 'sudo /bin/sh -c ''wget https://github.com/earthly/earthly/releases/download/v0.4.4/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'''
+        run: 'sudo /bin/sh -c ''wget https://github.com/earthly/earthly/releases/download/v0.5.9/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'''
 
       - name: Earthly version
         run: earthly --version
