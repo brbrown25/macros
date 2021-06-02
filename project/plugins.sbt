@@ -24,7 +24,7 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.7")
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.1.2")
 
 //https://github.com/scalacenter/scalafix
-addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.27")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.29")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.5")
 
