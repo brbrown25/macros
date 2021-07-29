@@ -125,13 +125,13 @@ lazy val baseSettings = Seq(
         case other => Seq(other)
       }
   },
-  scalacOptions in (Compile, console) ~= {
+  (Compile / console / scalacOptions) ~= {
     _.filterNot(Set("-Ywarn-unused-import", "-Ywarn-unused:imports", "-Yno-predef"))
   },
-  scalacOptions in (Test, console) ~= {
+  (Test / console / scalacOptions) ~= {
     _.filterNot(Set("-Ywarn-unused-import", "-Ywarn-unused:imports", "-Yno-predef"))
   },
-  scalacOptions in Test ~= {
+  (Test / scalacOptions) ~= {
     _.filterNot(Set("-Yno-predef"))
   },
   libraryDependencies ++= Seq(
@@ -139,7 +139,7 @@ lazy val baseSettings = Seq(
     "org.slf4j" % "slf4j-simple" % "1.7.32" % Provided
   ),
   resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo),
-  skip in publish := true
+  (publish / skip) := true
 )
 
 lazy val macroSettings: Seq[Setting[_]] = Seq(
@@ -170,7 +170,7 @@ lazy val macroSettings: Seq[Setting[_]] = Seq(
 lazy val macros = (project in file("./macros"))
   .settings(
     name := "macros",
-    skip in publish := false,
+    (publish / skip) := false,
     macroSettings ++ Release.settings,
     libraryDependencies ++= Seq(
       "ch.qos.logback" % "logback-classic" % "1.2.4",
@@ -207,9 +207,9 @@ lazy val docSettings = Seq(
   ),
   ghpagesNoJekyll := false,
   git.remoteRepo := "git@github.com:brbrown25/macros.git",
-  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
-  includeFilter in Jekyll := (includeFilter in makeSite).value,
-  mdocIn := baseDirectory.in(LocalRootProject).value / "docs" / "src" / "main" / "mdoc",
+  (makeSite / includeFilter) := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
+  (Jekyll / includeFilter) := (makeSite / includeFilter).value,
+  mdocIn := (LocalRootProject / baseDirectory).value / "docs" / "src" / "main" / "mdoc",
   mdocExtraArguments := Seq("--no-link-hygiene"),
   micrositeGithubToken := sys.env.get("MICROSITE_TOKEN"),
 )
@@ -221,7 +221,7 @@ lazy val docs = project
   .settings(macroSettings)
   .settings(
     moduleName := "macros-docs",
-    skip in publish := true,
+    (publish / skip) := true,
     mdocVariables := Map(
       "SNAPSHOT_VERSION" -> version.value,
       "RELEASE_VERSION" -> "1.0.2",
