@@ -173,7 +173,7 @@ lazy val macros = (project in file("./macros"))
     skip in publish := false,
     macroSettings ++ Release.settings,
     libraryDependencies ++= Seq(
-      "ch.qos.logback" % "logback-classic" % "1.2.3",
+      "ch.qos.logback" % "logback-classic" % "1.2.4",
       "org.scalatest" %% "scalatest" % "3.2.9" % "test"
     )
   )
