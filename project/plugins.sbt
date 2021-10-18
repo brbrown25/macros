@@ -12,7 +12,7 @@ addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.3.1")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.3")
 
 // https://github.com/olafurpg/sbt-ci-release
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.9")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 
 // https://github.com/sbt/sbt-release/releases
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
