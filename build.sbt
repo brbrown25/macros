@@ -256,7 +256,7 @@ inThisBuild(
     semanticdbEnabled := true, // enable SemanticDB
     semanticdbVersion := scalafixSemanticdb.revision, // use Scalafix compatible version
     scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value),
-    scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
+    scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
   )
 )
 
