@@ -135,8 +135,8 @@ lazy val baseSettings = Seq(
     _.filterNot(Set("-Yno-predef"))
   },
   libraryDependencies ++= Seq(
-    "org.slf4j" % "slf4j-api" % "1.7.32" % Provided,
-    "org.slf4j" % "slf4j-simple" % "1.7.32" % Provided
+    "org.slf4j" % "slf4j-api" % "1.7.33" % Provided,
+    "org.slf4j" % "slf4j-simple" % "1.7.33" % Provided
   ),
   resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo),
   (publish / skip) := true
