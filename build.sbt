@@ -24,9 +24,11 @@ lazy val allCrossVersions = Seq("2.11.12", "2.12.12", "2.13.5")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+def adopt(version: String): JavaSpec = JavaSpec(JavaSpec.Distribution.Adopt, version)
+
 ThisBuild / crossScalaVersions := allCrossVersions
 ThisBuild / scalaVersion := crossScalaVersions.value.last
-ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8", "adopt@1.11", "adopt@1.15")
+ThisBuild / githubWorkflowJavaVersions := Seq(adopt("8"), adopt("11"), adopt("15"))
 ThisBuild / githubWorkflowArtifactUpload := false
 ThisBuild / githubWorkflowAddedJobs ++= Seq(
   WorkflowJob(
@@ -91,7 +93,7 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
       ),
       WorkflowStep.Run(List("earthly --version"), name = Some("Earthly version")),
       WorkflowStep.Run(List("earthly +lint-check"), name = Some("Run checks")),
-      WorkflowStep.Run(List("earthly +unit-test"), name = Some("Run test")),
+      WorkflowStep.Run(List("earthly +unit-test"), name = Some("Run test"))
     ),
     scalas = List(crossScalaVersions.value.last)
   )
@@ -211,7 +213,7 @@ lazy val docSettings = Seq(
   (Jekyll / includeFilter) := (makeSite / includeFilter).value,
   mdocIn := (LocalRootProject / baseDirectory).value / "docs" / "src" / "main" / "mdoc",
   mdocExtraArguments := Seq("--no-link-hygiene"),
-  micrositeGithubToken := sys.env.get("MICROSITE_TOKEN"),
+  micrositeGithubToken := sys.env.get("MICROSITE_TOKEN")
 )
 
 lazy val docs = project
@@ -268,7 +270,7 @@ addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("checkAll", "fixCheck; fmtCheck")
 
 ThisBuild / coverageEnabled := true
-ThisBuild / coverageMinimum := 80
+ThisBuild / coverageMinimumStmtTotal := 80
 ThisBuild / coverageFailOnMinimum := true
 
 import org.scoverage.coveralls.Imports.CoverallsKeys._
