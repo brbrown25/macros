@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.11.12, 2.12.12, 2.13.5]
+        scala: [2.11.12, 2.12.12, 2.13.8]
         java:
           - adopt-hotspot@8
           - adopt-hotspot@11
@@ -80,7 +80,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.5]
+        scala: [2.13.8]
         java: [adopt-hotspot@8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -177,7 +177,7 @@ jobs:
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
       - name: Check formatting
-        run: sbt ++2.13.5 checkAll
+        run: sbt ++2.13.8 checkAll
 
   coverage:
     name: Coverage
@@ -185,7 +185,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.5]
+        scala: [2.13.8]
         java: [temurin@11]
     runs-on: ${{ matrix.os }}
     env:
@@ -255,7 +255,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.5]
+        scala: [2.13.8]
         java: [temurin@11]
     runs-on: ${{ matrix.os }}
     steps:
@@ -317,7 +317,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.5]
+        scala: [2.13.8]
         java: [temurin@11]
     runs-on: ${{ matrix.os }}
     steps:

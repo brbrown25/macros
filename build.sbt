@@ -20,7 +20,7 @@ def priorTo2_13(scVersion: String): Boolean =
     case _ => false
   }
 
-lazy val allCrossVersions = Seq("2.11.12", "2.12.12", "2.13.5")
+lazy val allCrossVersions = Seq("2.11.12", "2.12.12", "2.13.8")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -266,8 +266,8 @@ addCommandAlias("fix", "scalafixAll")
 addCommandAlias("fixCheck", "scalafixAll --check")
 addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
 addCommandAlias("fmtCheck", "all scalafmtSbtCheck scalafmtCheckAll")
-addCommandAlias("prepare", "fix; fmt")
-addCommandAlias("checkAll", "fixCheck; fmtCheck")
+addCommandAlias("prepare", "fix; fmt; githubWorkflowGenerate")
+addCommandAlias("checkAll", "fixCheck; fmtCheck; githubWorkflowCheck")
 
 ThisBuild / coverageEnabled := true
 ThisBuild / coverageMinimumStmtTotal := 80
