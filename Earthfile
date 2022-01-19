@@ -1,4 +1,4 @@
-FROM hseeberger/scala-sbt:11.0.10_1.5.0_2.13.5
+FROM hseeberger/scala-sbt:11.0.13_1.6.1_2.13.8
 WORKDIR .
 
 deps:
@@ -7,6 +7,7 @@ deps:
   COPY .scalafmt.conf .scalafmt.conf
   COPY .scalafix.conf .scalafix.conf
   COPY version.sbt version.sbt
+  COPY .github .github
   RUN sbt update
 
 unit-test:
