@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: View PR author
-        run: echo "This PR is opened by ${{toJSON(github.event.pull_request)}} ."
+        run: echo "This PR is opened by ${{toJSON(github.event)}} ."
 
       - name: Checkout current branch (full)
         uses: actions/checkout@v2
