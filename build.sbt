@@ -112,7 +112,7 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
       )
     ),
     scalas = List(crossScalaVersions.value.last),
-    cond = Some("github.author == 'scala-steward'"),
+    cond = Some("github.event.sender.login == 'scala-steward'"),
     needs = List("build")
   )
 )

@@ -341,7 +341,7 @@ jobs:
   merge:
     name: Merge dependency update
     needs: [build]
-    if: github.author == 'scala-steward'
+    if: github.event.sender.login == 'scala-steward'
     strategy:
       matrix:
         os: [ubuntu-latest]
