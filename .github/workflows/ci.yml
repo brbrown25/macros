@@ -29,6 +29,9 @@ jobs:
           - adopt-hotspot@15
     runs-on: ${{ matrix.os }}
     steps:
+      - name: View PR author
+        run: echo "This PR is opened by ${{toJSON(github.event.pull_request)}} ."
+
       - name: Checkout current branch (full)
         uses: actions/checkout@v2
         with:
@@ -67,290 +70,292 @@ jobs:
             ~/Library/Caches/Coursier/v1
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Check that workflows are up to date
-        run: sbt ++${{ matrix.scala }} githubWorkflowCheck
+      # - name: Check that workflows are up to date
+      #   run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
-      - name: Build project
-        run: sbt ++${{ matrix.scala }} test
+      # - name: Build project
+      #   run: sbt ++${{ matrix.scala }} test
 
-  publish:
-    name: Publish Artifacts
-    needs: [build]
-    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/*') || (startsWith(github.ref, 'refs/heads/') && contains(github.ref, 'master')) || (startsWith(github.ref, 'refs/heads/') && contains(github.ref, 'main')))
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.8]
-        java: [adopt-hotspot@8]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  # publish:
+  #   name: Publish Artifacts
+  #   needs: [build]
+  #   if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/*') || (startsWith(github.ref, 'refs/heads/') && contains(github.ref, 'master')) || (startsWith(github.ref, 'refs/heads/') && contains(github.ref, 'main')))
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       scala: [2.13.8]
+  #       java: [adopt-hotspot@8]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: Checkout current branch (full)
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup Java (adopt-hotspot@8)
-        if: matrix.java == 'adopt-hotspot@8'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 8
+  #     - name: Setup Java (adopt-hotspot@8)
+  #       if: matrix.java == 'adopt-hotspot@8'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 8
 
-      - name: Setup Java (adopt-hotspot@11)
-        if: matrix.java == 'adopt-hotspot@11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 11
+  #     - name: Setup Java (adopt-hotspot@11)
+  #       if: matrix.java == 'adopt-hotspot@11'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 11
 
-      - name: Setup Java (adopt-hotspot@15)
-        if: matrix.java == 'adopt-hotspot@15'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 15
+  #     - name: Setup Java (adopt-hotspot@15)
+  #       if: matrix.java == 'adopt-hotspot@15'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 15
 
-      - name: Cache sbt
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.sbt
-            ~/.ivy2/cache
-            ~/.coursier/cache/v1
-            ~/.cache/coursier/v1
-            ~/AppData/Local/Coursier/Cache/v1
-            ~/Library/Caches/Coursier/v1
-          key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+  #     - name: Cache sbt
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/.sbt
+  #           ~/.ivy2/cache
+  #           ~/.coursier/cache/v1
+  #           ~/.cache/coursier/v1
+  #           ~/AppData/Local/Coursier/Cache/v1
+  #           ~/Library/Caches/Coursier/v1
+  #         key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        run: sbt ++${{ matrix.scala }} ci-release
+  #     - env:
+  #         PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+  #         PGP_SECRET: ${{ secrets.PGP_SECRET }}
+  #         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+  #         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+  #       run: sbt ++${{ matrix.scala }} ci-release
 
-  formatting:
-    name: Check formatting
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.6]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  # formatting:
+  #   name: Check formatting
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       scala: [2.13.6]
+  #       java: [temurin@11]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: Checkout current branch (full)
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup Java (adopt-hotspot@8)
-        if: matrix.java == 'adopt-hotspot@8'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 8
+  #     - name: Setup Java (adopt-hotspot@8)
+  #       if: matrix.java == 'adopt-hotspot@8'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 8
 
-      - name: Setup Java (adopt-hotspot@11)
-        if: matrix.java == 'adopt-hotspot@11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 11
+  #     - name: Setup Java (adopt-hotspot@11)
+  #       if: matrix.java == 'adopt-hotspot@11'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 11
 
-      - name: Setup Java (adopt-hotspot@15)
-        if: matrix.java == 'adopt-hotspot@15'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 15
+  #     - name: Setup Java (adopt-hotspot@15)
+  #       if: matrix.java == 'adopt-hotspot@15'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 15
 
-      - name: Cache sbt
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.sbt
-            ~/.ivy2/cache
-            ~/.coursier/cache/v1
-            ~/.cache/coursier/v1
-            ~/AppData/Local/Coursier/Cache/v1
-            ~/Library/Caches/Coursier/v1
-          key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+  #     - name: Cache sbt
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/.sbt
+  #           ~/.ivy2/cache
+  #           ~/.coursier/cache/v1
+  #           ~/.cache/coursier/v1
+  #           ~/AppData/Local/Coursier/Cache/v1
+  #           ~/Library/Caches/Coursier/v1
+  #         key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Check formatting
-        run: sbt ++2.13.8 checkAll
+  #     - name: Check formatting
+  #       run: sbt ++2.13.8 checkAll
 
-  coverage:
-    name: Coverage
-    if: github.event_name != 'pull_request'
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.8]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    env:
-      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-      COVERALLS_FLAG_NAME: MACROS
-      github-token: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  # coverage:
+  #   name: Coverage
+  #   if: github.event_name != 'pull_request'
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       scala: [2.13.8]
+  #       java: [temurin@11]
+  #   runs-on: ${{ matrix.os }}
+  #   env:
+  #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+  #     COVERALLS_FLAG_NAME: MACROS
+  #     github-token: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - name: Checkout current branch (full)
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup Java (adopt-hotspot@8)
-        if: matrix.java == 'adopt-hotspot@8'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 8
+  #     - name: Setup Java (adopt-hotspot@8)
+  #       if: matrix.java == 'adopt-hotspot@8'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 8
 
-      - name: Setup Java (adopt-hotspot@11)
-        if: matrix.java == 'adopt-hotspot@11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 11
+  #     - name: Setup Java (adopt-hotspot@11)
+  #       if: matrix.java == 'adopt-hotspot@11'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 11
 
-      - name: Setup Java (adopt-hotspot@15)
-        if: matrix.java == 'adopt-hotspot@15'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 15
+  #     - name: Setup Java (adopt-hotspot@15)
+  #       if: matrix.java == 'adopt-hotspot@15'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 15
 
-      - name: Cache sbt
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.sbt
-            ~/.ivy2/cache
-            ~/.coursier/cache/v1
-            ~/.cache/coursier/v1
-            ~/AppData/Local/Coursier/Cache/v1
-            ~/Library/Caches/Coursier/v1
-          key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+  #     - name: Cache sbt
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/.sbt
+  #           ~/.ivy2/cache
+  #           ~/.coursier/cache/v1
+  #           ~/.cache/coursier/v1
+  #           ~/AppData/Local/Coursier/Cache/v1
+  #           ~/Library/Caches/Coursier/v1
+  #         key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
+  #     - name: Setup Python
+  #       uses: actions/setup-python@v2
 
-      - name: Install Codecov
-        run: pip install codecov
+  #     - name: Install Codecov
+  #       run: pip install codecov
 
-      - name: Calculate test coverage
-        run: sbt ++${{ matrix.scala }} coverage macros/test macros/coverageReport
+  #     - name: Calculate test coverage
+  #       run: sbt ++${{ matrix.scala }} coverage macros/test macros/coverageReport
 
-      - name: Upload coverage results
-        run: codecov
+  #     - name: Upload coverage results
+  #       run: codecov
 
-      - name: Generate Coverage Report
-        run: sbt clean coverage test coverageReport
+  #     - name: Generate Coverage Report
+  #       run: sbt clean coverage test coverageReport
 
-      - name: Publish Coverage Report
-        run: sbt coverageAggregate coveralls
+  #     - name: Publish Coverage Report
+  #       run: sbt coverageAggregate coveralls
 
-  microsite:
-    name: Microsite
-    if: github.event_name != 'pull_request'
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.8]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  # microsite:
+  #   name: Microsite
+  #   if: github.event_name != 'pull_request'
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       scala: [2.13.8]
+  #       java: [temurin@11]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: Checkout current branch (full)
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup Java (adopt-hotspot@8)
-        if: matrix.java == 'adopt-hotspot@8'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 8
+  #     - name: Setup Java (adopt-hotspot@8)
+  #       if: matrix.java == 'adopt-hotspot@8'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 8
 
-      - name: Setup Java (adopt-hotspot@11)
-        if: matrix.java == 'adopt-hotspot@11'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 11
+  #     - name: Setup Java (adopt-hotspot@11)
+  #       if: matrix.java == 'adopt-hotspot@11'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 11
 
-      - name: Setup Java (adopt-hotspot@15)
-        if: matrix.java == 'adopt-hotspot@15'
-        uses: actions/setup-java@v2
-        with:
-          distribution: adopt-hotspot
-          java-version: 15
+  #     - name: Setup Java (adopt-hotspot@15)
+  #       if: matrix.java == 'adopt-hotspot@15'
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: adopt-hotspot
+  #         java-version: 15
 
-      - name: Cache sbt
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.sbt
-            ~/.ivy2/cache
-            ~/.coursier/cache/v1
-            ~/.cache/coursier/v1
-            ~/AppData/Local/Coursier/Cache/v1
-            ~/Library/Caches/Coursier/v1
-          key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+  #     - name: Cache sbt
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           ~/.sbt
+  #           ~/.ivy2/cache
+  #           ~/.coursier/cache/v1
+  #           ~/.cache/coursier/v1
+  #           ~/AppData/Local/Coursier/Cache/v1
+  #           ~/Library/Caches/Coursier/v1
+  #         key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6
-          bundler-cache: true
+  #     - name: Setup Ruby
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: 2.6
+  #         bundler-cache: true
 
-      - name: Install Jekyll
-        run: gem install jekyll -v 2.5
+  #     - name: Install Jekyll
+  #       run: gem install jekyll -v 2.5
 
-      - name: Clean microsite
-        run: sbt ++${{ matrix.scala }} docs/clean
+  #     - name: Clean microsite
+  #       run: sbt ++${{ matrix.scala }} docs/clean
 
-      - name: Build microsite
-        run: sbt ++${{ matrix.scala }} docs/makeMicrosite
+  #     - name: Build microsite
+  #       run: sbt ++${{ matrix.scala }} docs/makeMicrosite
 
-  earthly:
-    name: Earthly Checks
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.8]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout current branch (full)
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  # earthly:
+  #   name: Earthly Checks
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       scala: [2.13.8]
+  #       java: [temurin@11]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: Checkout current branch (full)
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Install Earthly
-        run: 'sudo /bin/sh -c ''wget https://github.com/earthly/earthly/releases/download/v0.5.9/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'''
+  #     - name: Install Earthly
+  #       run: 'sudo /bin/sh -c ''wget https://github.com/earthly/earthly/releases/download/v0.5.9/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'''
 
-      - name: Earthly version
-        run: earthly --version
+  #     - name: Earthly version
+  #       run: earthly --version
 
-      - name: Run checks
-        run: earthly +lint-check
+  #     - name: Run checks
+  #       run: earthly +lint-check
 
-      - name: Run test
-        run: earthly +unit-test
+  #     - name: Run test
+  #       run: earthly +unit-test
 
-  merge:
-    name: Merge dependency update
-    needs: [build]
-    if: github.author == 'scala-steward'
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.8]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: merge PR
-        uses: actions/desbo/merge-pr-action@v0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_METHOD: rebase
+  # merge:
+  #   name: Merge dependency update
+  #   needs: [build]
+  #   if: github.event.pull_request.user.login == 'me@scala-steward.org'
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       scala: [2.13.8]
+  #       java: [temurin@11]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: View PR author
+  #       run: echo "This PR is opened by ${{ github.event.pull_request.user.login }} ."
+  #     - name: merge PR
+  #       uses: actions/desbo/merge-pr-action@v0
+  #       with:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         MERGE_METHOD: rebase
