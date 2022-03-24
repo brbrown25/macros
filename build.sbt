@@ -103,7 +103,7 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
     "Merge dependency update",
     List(
       WorkflowStep.Use(
-        UseRef.Public("actions", "desbo/merge-pr-action", "v0"),
+        UseRef.Public("actions", "desbo/merge-pr-action", "v0.3.2"),
         name = Some("merge PR"),
         params = Map(
           "GITHUB_TOKEN" -> "${{ secrets.GITHUB_TOKEN }}",
@@ -112,7 +112,7 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
       )
     ),
     scalas = List(crossScalaVersions.value.last),
-    cond = Some("github.event.sender.login == 'scala-steward'"),
+    cond = Some("github.actor == 'scala-steward'"),
     needs = List("build")
   )
 )

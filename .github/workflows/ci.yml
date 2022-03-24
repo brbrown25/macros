@@ -341,7 +341,7 @@ jobs:
   merge:
     name: Merge dependency update
     needs: [build]
-    if: github.event.sender.login == 'scala-steward'
+    if: github.actor == 'scala-steward'
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -350,7 +350,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: merge PR
-        uses: actions/desbo/merge-pr-action@v0
+        uses: actions/desbo/merge-pr-action@v0.3.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_METHOD: rebase
