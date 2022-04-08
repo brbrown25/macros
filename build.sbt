@@ -96,24 +96,6 @@ ThisBuild / githubWorkflowAddedJobs ++= Seq(
       WorkflowStep.Run(List("earthly +unit-test"), name = Some("Run test"))
     ),
     scalas = List(crossScalaVersions.value.last)
-  ),
-  //auto merge scala steward prs
-  WorkflowJob(
-    "merge",
-    "Merge dependency update",
-    List(
-      WorkflowStep.Use(
-        UseRef.Public("actions", "desbo/merge-pr-action", "v0.3.2"),
-        name = Some("merge PR"),
-        params = Map(
-          "GITHUB_TOKEN" -> "${{ secrets.GITHUB_TOKEN }}",
-          "MERGE_METHOD" -> "rebase"
-        )
-      )
-    ),
-    scalas = List(crossScalaVersions.value.last),
-    cond = Some("github.actor == 'scala-steward'"),
-    needs = List("build")
   )
 )
 ThisBuild / githubWorkflowPublishTargetBranches :=

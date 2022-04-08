@@ -337,20 +337,3 @@ jobs:
 
       - name: Run test
         run: earthly +unit-test
-
-  merge:
-    name: Merge dependency update
-    needs: [build]
-    if: github.actor == 'scala-steward'
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        scala: [2.13.8]
-        java: [temurin@11]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: merge PR
-        uses: actions/desbo/merge-pr-action@v0.3.2
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_METHOD: rebase
