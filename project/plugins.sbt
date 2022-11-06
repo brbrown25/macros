@@ -18,7 +18,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
 
 // https://github.com/xerial/sbt-sonatype/releases
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.13")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.14")
 
 // https://github.com/sbt/sbt-pgp/releases
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.1.2")
