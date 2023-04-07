@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.11.12, 2.12.12, 2.13.8]
+        scala: [2.11.12, 2.12.12, 2.13.10]
         java:
           - adopt-hotspot@8
           - adopt-hotspot@11
@@ -80,7 +80,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.8]
+        scala: [2.13.10]
         java: [adopt-hotspot@8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -185,7 +185,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.8]
+        scala: [2.13.10]
         java: [temurin@11]
     runs-on: ${{ matrix.os }}
     env:
@@ -255,7 +255,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.8]
+        scala: [2.13.10]
         java: [temurin@11]
     runs-on: ${{ matrix.os }}
     steps:
@@ -317,7 +317,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.13.8]
+        scala: [2.13.10]
         java: [temurin@11]
     runs-on: ${{ matrix.os }}
     steps:
