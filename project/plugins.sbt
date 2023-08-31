@@ -9,7 +9,7 @@ addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.3.5")
 // addSbtPlugin("net.ruippeixotog" % "sbt-coveralls" % "1.3.0") // fork with scoverage/sbt-coveralls#128 merged in
 
 // https://github.com/scalameta/scalafmt
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
 
 // https://github.com/olafurpg/sbt-ci-release
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
