@@ -15,7 +15,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 
 // https://github.com/sbt/sbt-release/releases
-addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
+addSbtPlugin("com.github.sbt" % "sbt-release" % "1.4.0")
 
 // https://github.com/xerial/sbt-sonatype/releases
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.10.0")
