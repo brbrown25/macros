@@ -137,8 +137,8 @@ lazy val baseSettings = Seq(
     _.filterNot(Set("-Yno-predef"))
   },
   libraryDependencies ++= Seq(
-    "org.slf4j" % "slf4j-api" % "2.0.7" % Provided,
-    "org.slf4j" % "slf4j-simple" % "2.0.7" % Provided
+    "org.slf4j" % "slf4j-api" % "2.0.13" % Provided,
+    "org.slf4j" % "slf4j-simple" % "2.0.13" % Provided
   ),
   resolvers ++= Seq("public", "snapshots", "releases").map(Resolver.sonatypeRepo),
   (publish / skip) := true
@@ -175,7 +175,7 @@ lazy val macros = (project in file("./macros"))
     (publish / skip) := false,
     macroSettings ++ Release.settings,
     libraryDependencies ++= Seq(
-      "ch.qos.logback" % "logback-classic" % "1.4.14",
+      "ch.qos.logback" % "logback-classic" % "1.5.5",
       "org.scalatest" %% "scalatest" % "3.2.15" % "test"
     )
   )
