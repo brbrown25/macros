@@ -58,6 +58,9 @@ jobs:
           java-version: 15
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Check that workflows are up to date
         run: sbt '++ ${{ matrix.scala }}' githubWorkflowCheck
 
@@ -104,6 +107,9 @@ jobs:
           java-version: 15
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
@@ -117,7 +123,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.10]
-        java: [temurin@8]
+        java: [zulu@8]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -149,6 +155,9 @@ jobs:
           java-version: 15
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Check formatting
         run: sbt ++2.13.8 checkAll
 
@@ -159,7 +168,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.8]
-        java: [temurin@8]
+        java: [zulu@8]
     runs-on: ${{ matrix.os }}
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -195,6 +204,9 @@ jobs:
           java-version: 15
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Setup Python
         uses: actions/setup-python@v2
 
@@ -220,7 +232,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.8]
-        java: [temurin@8]
+        java: [zulu@8]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -252,6 +264,9 @@ jobs:
           java-version: 15
           cache: sbt
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -273,7 +288,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         scala: [2.13.8]
-        java: [temurin@8]
+        java: [zulu@8]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
